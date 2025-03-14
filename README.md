@@ -1,4 +1,4 @@
-# Product Box Assessment  
+# ProductBox Assessment Task
 
 ## Overview  
 This is a simple frontend application built to meet the core requirements outlined in the assessment. The application allows users to add items, view them in a list, and manage them in a checkout cart.  
@@ -9,12 +9,8 @@ This is a simple frontend application built to meet the core requirements outlin
 ✅ Persist the number of items in the cart across different browser tabs  
 ✅ Ensure the checkout page shows the selected items  
 ✅ Maintain a clean and usable design/layout  
-
-## Notes  
-- The code is structured for readability, modularity, and scalability.  
-- The core requirements have been fully implemented, but some additional tasks mentioned were not completed due to time constraints.  
-- If needed, I am open to working on the additional tasks as well.  
-
+✅ Dynamically load items when they're added to backend (no need to refresh)  
+✅ Add Items form validation
 ## Installation  
 1. Clone the repository:  
 ```bash

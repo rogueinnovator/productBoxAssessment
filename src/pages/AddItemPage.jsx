@@ -6,10 +6,25 @@ const AddItemPage = () => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [image, setImage] = useState(null);
+    const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+
+    const validateForm = () => {
+        const newErrors = {};
+        if (!name.trim()) newErrors.name = 'please add items name';
+        if (!price) newErrors.price = 'please add price';
+        if (!image) {
+            newErrors.image = 'please add image';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) return;
+
         const formData = new FormData();
         formData.append('name', name);
         formData.append('price', price);
@@ -21,7 +36,7 @@ const AddItemPage = () => {
                 navigate('/items');
             }, 1500);
         } catch (error) {
-            console.error(error, "while creating item");
+            console.error('Error while creating item:', error);
         }
     };
 
@@ -30,23 +45,42 @@ const AddItemPage = () => {
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold text-center mb-4">Add New Item</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    {[
-                        { label: 'Item Name', type: 'text', value: name, onChange: setName, placeholder: 'Enter item name' },
-                        { label: 'Price (Rs)', type: 'number', value: price, onChange: setPrice, placeholder: 'Enter price' },
-                        { label: 'Upload Image', type: 'file', onChange: (e) => setImage(e.target.files[0]) }
-                    ].map((field, index) => (
-                        <div key={index}>
-                            <label className="block text-gray-700 font-medium mb-1">{field.label}</label>
-                            <input
-                                type={field.type}
-                                value={field.value}
-                                onChange={(e) => field.onChange(field.type === 'file' ? e : e.target.value)}
-                                className="w-full px-4 py-2 border bg-gray-500 rounded-lg focus:ring focus:ring-blue-300"
-                                placeholder={field.placeholder}
-                                required
-                            />
-                        </div>
-                    ))}
+                    {/* Item Name */}
+                    <div>
+                        <label className="block text-gray-700 font-medium mb-1">Item Name</label>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-full px-4 py-2 border bg-gray-700 rounded-lg"
+                            placeholder="Enter item name"
+                        />
+                        {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                    </div>
+
+                    {/* PRICE */}
+                    <div>
+                        <label className="block text-gray-700 font-medium mb-1">Price (Rs)</label>
+                        <input
+                            type="number"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            className="w-full px-4 py-2 border bg-gray-700 rounded-lg"
+                            placeholder="Enter price"
+                        />
+                        {errors.price && <p className=" text-red-500 text-sm mt-1">{errors.price}</p>}
+                    </div>
+
+                    {/* IMAGE */}
+                    <div>
+                        <label className="block text-gray-700 font-medium mb-1">Upload Image</label>
+                        <input
+                            type="file"
+                            onChange={(e) => setImage(e.target.files[0])}
+                            className="px-8 py-2 border bg-gray-700 rounded-lg"
+                        />
+                        {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
+                    </div>
 
                     <button
                         type="submit"
